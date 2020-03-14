@@ -25,6 +25,8 @@ class PhotoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // TODO: set a location by using latitude and longitude of selected annotion and add an annotation
+        
         // TODO: check if there are saved images in CoreData.
         // use DataController and FetchedController
         
