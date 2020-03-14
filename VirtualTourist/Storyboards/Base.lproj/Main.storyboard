@@ -135,6 +135,7 @@
                     <navigationItem key="navigationItem" id="U2Q-SX-15b"/>
                     <connections>
                         <outlet property="collectionView" destination="Y5K-rz-KdD" id="FNJ-DK-78k"/>
+                        <outlet property="mapView" destination="CTm-ku-xZo" id="FG0-I5-gzy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Kn-ct-ML1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

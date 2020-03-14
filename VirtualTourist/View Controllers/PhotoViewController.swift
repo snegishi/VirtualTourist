@@ -19,6 +19,7 @@ class PhotoViewController: UIViewController {
     
     // MARK: - IBOutlets
     
+    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - Life Cycle
@@ -26,6 +27,10 @@ class PhotoViewController: UIViewController {
         super.viewDidLoad()
         
         // TODO: set a location by using latitude and longitude of selected annotion and add an annotation
+        let centerCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
+        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        let viewRegion = MKCoordinateRegion(center: centerCoordinate, span: span)
+        mapView.setRegion(viewRegion, animated: false)
         
         // TODO: check if there are saved images in CoreData.
         // use DataController and FetchedController
