@@ -17,11 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("This is the first launch ever!")
             UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
 
-            // TODO current location and default size
+            // TODO current user location and default size 0.05
             UserDefaults.standard.set(37.773972, forKey: "DefaultLatitude")
             UserDefaults.standard.set(-122.431297, forKey: "DefaultLongitude")
-            UserDefaults.standard.set(2000000, forKey: "DefaultLatMeters")
-            UserDefaults.standard.set(2000000, forKey: "DefaultLongMeters")
+            UserDefaults.standard.set(0.05, forKey: "DefaultLatDelta")
+            UserDefaults.standard.set(0.05, forKey: "DefaultLonDelta")
             UserDefaults.standard.synchronize()
         }
     }
@@ -29,7 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-//        checkIfFirstLaunch()
+        checkIfFirstLaunch()
         return true
     }
 

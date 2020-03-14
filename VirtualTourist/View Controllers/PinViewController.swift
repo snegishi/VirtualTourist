@@ -14,8 +14,8 @@ class PinViewController: UIViewController {
 
     // MARK: - Properties
     
-    var dataController: DataController!
-    var fetchedResultsController: NSFetchedResultsController<Pin>!
+//    var dataController: DataController!
+//    var fetchedResultsController: NSFetchedResultsController<Pin>!
     
     var latitude = 0.0
     var longitude = 0.0
@@ -23,27 +23,27 @@ class PinViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var mapView: MKMapView!
 
-    fileprivate func setUpFetchedResultsController() {
-        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "pins")
-        fetchedResultsController.delegate = self
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("The fetch could not be performed. \(error.localizedDescription)")
-        }
-    }
+//    fileprivate func setUpFetchedResultsController() {
+//        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+//
+//        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "pins")
+//        fetchedResultsController.delegate = self
+//        do {
+//            try fetchedResultsController.performFetch()
+//        } catch {
+//            fatalError("The fetch could not be performed. \(error.localizedDescription)")
+//        }
+//    }
     
     fileprivate func setDefaultCenterAndSizeOnMap() {
         latitude = UserDefaults.standard.double(forKey: "DefaultLatitude")
         longitude = UserDefaults.standard.double(forKey: "DefaultLongitude")
-//        let latitudinalMeters = UserDefaults.standard.integer(forKey: "DefaultLatMeters")
-//        let longitudinalMeters = UserDefaults.standard.integer(forKey: "DefaultLongMeters")
-//        let annotation = MKPointAnnotation()
-//        annotation.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
-//        let viewRegion = MKCoordinateRegion(center: annotation.coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
-//        mapView.setRegion(viewRegion, animated: false)
+        let latitudeDelta = UserDefaults.standard.double(forKey: "DefaultLatDelta")
+        let longitudeDelta = UserDefaults.standard.double(forKey: "DefaultLonDelta")
+        let centerCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
+        let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+        let viewRegion = MKCoordinateRegion(center: centerCoordinate, span: span)
+        mapView.setRegion(viewRegion, animated: false)
     }
     
     override func viewDidLoad() {
@@ -54,19 +54,24 @@ class PinViewController: UIViewController {
         mapPress.minimumPressDuration = 0.3
         mapView.addGestureRecognizer(mapPress)
         
-        setUpFetchedResultsController()
+//        setUpFetchedResultsController()
         setDefaultCenterAndSizeOnMap()
         
         print("latitude: \(latitude), longitude: \(longitude)")
     }
     
     deinit {
-        // TODO save the default center and size to UserDefaults
-//        let annotations = mapView.annotations
-//        for
-//        UserDefaults.standard.set(, forKey: <#T##String#>)
-//        UserDefaults
-//        mapView.centerCoordinate
+        let centerCoordinate = mapView.region.center
+        let latitude: Double = centerCoordinate.latitude
+        let longitude: Double = centerCoordinate.longitude
+        let span = mapView.region.span
+        let latitudeDelta: Double = span.latitudeDelta
+        let longitudeDelta: Double = span.longitudeDelta
+        
+        UserDefaults.standard.set(latitude, forKey: "DefaultLatitude")
+        UserDefaults.standard.set(longitude, forKey: "DefaultLongitude")
+        UserDefaults.standard.set(latitudeDelta, forKey: "DefaultLatDelta")
+        UserDefaults.standard.set(longitudeDelta, forKey: "DefaultLonDelta")
     }
 }
 
