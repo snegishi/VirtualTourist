@@ -55,7 +55,7 @@ class PinViewController: UIViewController {
         mapView.addGestureRecognizer(mapPress)
         
 //        setUpFetchedResultsController()
-        setDefaultCenterAndSizeOnMap()        
+        setDefaultCenterAndSizeOnMap()
     }
     
     deinit {
@@ -76,14 +76,14 @@ class PinViewController: UIViewController {
 extension PinViewController: MKMapViewDelegate {
 
     @objc func addAnnotation(_ recognizer: UIGestureRecognizer) {
-        let annotations = self.mapView.annotations
-        self.mapView.removeAnnotations(annotations)
-        let touchedAt = recognizer.location(in: self.mapView) // adds the location on the view it was pressed
-        let newCoordinates : CLLocationCoordinate2D = mapView.convert(touchedAt, toCoordinateFrom: self.mapView) // will get coordinates
+        let annotations = mapView.annotations
+        mapView.removeAnnotations(annotations)
+        let touchedAt = recognizer.location(in: mapView) // adds the location on the view it was pressed
+        let newCoordinates : CLLocationCoordinate2D = mapView.convert(touchedAt, toCoordinateFrom: mapView) // will get coordinates
 
         let annotation = MKPointAnnotation()
         annotation.coordinate = newCoordinates
-        self.mapView.addAnnotation(annotation)
+        mapView.addAnnotation(annotation)
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
