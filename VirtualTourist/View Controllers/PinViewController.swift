@@ -55,9 +55,7 @@ class PinViewController: UIViewController {
         mapView.addGestureRecognizer(mapPress)
         
 //        setUpFetchedResultsController()
-        setDefaultCenterAndSizeOnMap()
-        
-        print("latitude: \(latitude), longitude: \(longitude)")
+        setDefaultCenterAndSizeOnMap()        
     }
     
     deinit {
