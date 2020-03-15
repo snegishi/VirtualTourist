@@ -23,6 +23,7 @@ class PhotoViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - Life Cycle
+    
     fileprivate func centerTheSelectedLocationOnMap() {
         let centerCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
@@ -44,7 +45,7 @@ class PhotoViewController: UIViewController {
         // use DataController and FetchedController
         
         // TODO download Photo images from Flickr if there are saved images in CoreData.
-        VirtualTouristClient.getPhotoList(latitude: latitude, longitutde: longitude, completion: photoListResponseHandler(photoList:error:))
+//        VirtualTouristClient.getPhotoList(latitude: latitude, longitutde: longitude, completion: photoListResponseHandler(photoList:error:))
 //        VirtualTouristClient.getPhotoData()
     }
     
@@ -63,17 +64,16 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count // TODO change the actual variable
+        return 15 //photos.count // TODO change the actual variable
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as UICollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! PhotoCell
         
         // TODO If there are some images which are saved in CoreData, you should show them in CollectionView. If not, you should insert "No Images" label.
-        
-//        cell. = UIImage(named: "VirtualTourist")
-        
-        
+
+//        cell.photoImageView?.image = UIImage(named: "VirtualTourist")
+        print("collectionView method passed.")
         
         return cell
     }

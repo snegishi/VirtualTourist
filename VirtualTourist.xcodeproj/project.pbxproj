@@ -18,6 +18,7 @@
 		BCED3ADA241CBD3400C02776 /* VirtualTouristClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCED3AD9241CBD3100C02776 /* VirtualTouristClient.swift */; };
 		BCED3ADC241CCC1000C02776 /* PhotoListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCED3ADB241CCC0F00C02776 /* PhotoListResponse.swift */; };
 		BCED3ADE241D073E00C02776 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCED3ADD241D073D00C02776 /* DataController.swift */; };
+		BCED3AE7241DC99800C02776 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCED3AE6241DC99800C02776 /* PhotoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		BCED3AD9241CBD3100C02776 /* VirtualTouristClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualTouristClient.swift; sourceTree = "<group>"; };
 		BCED3ADB241CCC0F00C02776 /* PhotoListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListResponse.swift; sourceTree = "<group>"; };
 		BCED3ADD241D073D00C02776 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		BCED3AE6241DC99800C02776 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PhotoCell.swift; path = ../../../../Project4/OnTheMap/OnTheMap/PhotoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 		BCED3AB72415DEF900C02776 /* VirtualTourist */ = {
 			isa = PBXGroup;
 			children = (
+				BCED3AE5241DC95B00C02776 /* Views */,
 				BCED3AB82415DEF900C02776 /* AppDelegate.swift */,
 				BCED3ABA2415DEF900C02776 /* SceneDelegate.swift */,
 				BCED3AD22415E0C900C02776 /* Model */,
@@ -136,6 +139,14 @@
 				BCED3AD9241CBD3100C02776 /* VirtualTouristClient.swift */,
 			);
 			path = "VirtualTourist Client";
+			sourceTree = "<group>";
+		};
+		BCED3AE5241DC95B00C02776 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BCED3AE6241DC99800C02776 /* PhotoCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCED3AC32415DEF900C02776 /* VirtualTourist.xcdatamodeld in Sources */,
+				BCED3AE7241DC99800C02776 /* PhotoCell.swift in Sources */,
 				BCED3ABD2415DEF900C02776 /* PinViewController.swift in Sources */,
 				BCED3ADC241CCC1000C02776 /* PhotoListResponse.swift in Sources */,
 				BCED3AB92415DEF900C02776 /* AppDelegate.swift in Sources */,
