@@ -23,14 +23,22 @@ class PhotoViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // TODO: set a location by using latitude and longitude of selected annotion and add an annotation
+    fileprivate func centerTheSelectedLocationOnMap() {
         let centerCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let viewRegion = MKCoordinateRegion(center: centerCoordinate, span: span)
         mapView.setRegion(viewRegion, animated: false)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = centerCoordinate
+        mapView.addAnnotation(annotation)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        centerTheSelectedLocationOnMap()
+        
         
         // TODO: check if there are saved images in CoreData.
         // use DataController and FetchedController
