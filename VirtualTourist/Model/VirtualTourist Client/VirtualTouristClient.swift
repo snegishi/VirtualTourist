@@ -16,7 +16,8 @@ class VirtualTouristClient {
     }
     
     enum Endpoints {
-        static let base = "https://www.flickr.com/services/rest/?method="
+        static let base = "https://www.flickr.com/services"
+        static let formatParam = "?format=json"
         static let apiKeyParam = "&api_key=\(Auth.apiKey)"
         
         case getPhotoList
@@ -24,7 +25,7 @@ class VirtualTouristClient {
         var stringValue: String {
             switch self {
             case .getPhotoList:
-                return Endpoints.base + "flickr.photos.geo.photosForLocation" + Endpoints.apiKeyParam
+                return Endpoints.base + "/rest/\(Endpoints.formatParam)&method=flickr.photos.search" + Endpoints.apiKeyParam
             }
         }
         
@@ -58,9 +59,10 @@ class VirtualTouristClient {
         return task
     }
     
-    class func getPhotoList(latitude: Double, longitutde: Double, completion: @escaping ([String], Error?) -> Void) {
+    class func getPhotoList(latitude: Double, longitutde: Double, completion: @escaping ([PhotoMeta], Error?) -> Void) {
 
-        let url = URL(string: Endpoints.getPhotoList.stringValue + "&lat=\(latitude)&lon=\(longitutde)")!
+        let urlString = Endpoints.getPhotoList.stringValue + "&lat=\(latitude)&lon=\(longitutde)"
+        let url = URL(string: urlString)!
         let ResponseType = PhotoListResponse.self
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -71,11 +73,11 @@ class VirtualTouristClient {
                 return
             }
             print(String(reflecting: data))
-//            let decoder = JSONDecoder()
+            let decoder = JSONDecoder()
             do {
-                let responseObject = [""] //try decoder.decode(ResponseType.self, from: data)
+                let responseObject = try decoder.decode(ResponseType.self, from: data)
                 DispatchQueue.main.async {
-                    completion(responseObject, nil)
+                    completion(responseObject.photos.photo, nil)
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -86,20 +88,9 @@ class VirtualTouristClient {
         task.resume()
     }
     
-//<photos page="2" pages="89" perpage="10" total="881">
-//    <photo id="2636" owner="47058503995@N01"
-//        secret="a123456" server="2" title="test_04"
-//        ispublic="1" isfriend="0" isfamily="0" />
-//    <photo id="2635" owner="47058503995@N01"
-//        secret="b123456" server="2" title="test_03"
-//        ispublic="0" isfriend="1" isfamily="1" />
-//    <photo id="2633" owner="47058503995@N01"
-//        secret="c123456" server="2" title="test_01"
-//        ispublic="1" isfriend="0" isfamily="0" />
-//    <photo id="2610" owner="12037949754@N01"
-//        secret="d123456" server="2" title="00_tall"
-//        ispublic="1" isfriend="0" isfamily="0" />
-//</photos>
+    //jsonFlickrApi({"photos":{"page":1,"pages":825,"perpage":250,"total":"206004","photo":[{"id":"49661111586","owner":"13722695@N00","secret":"014ce177b9","server":"65535","farm":66,"title":"Bay Area","ispublic":1,"isfriend":0,"isfamily":0},
+//{"id":"49660072626","owner":"51035555243@N01","secret":"64707f4e17","server":"65535","farm":66,"title":"Polaroid Cowboy","ispublic":1,"isfriend":0,"isfamily":0},{"id":"49660350507","owner":"51035555243@N01","secret":"97679e9803","server":"65535","farm":66,"title":"Folsom Street Fair","ispublic":1,"isfriend":0,"isfamily":0}]},"stat":"ok"})
+    
     
     
     class func getPhotoData() {

@@ -40,17 +40,23 @@ class PhotoViewController: UIViewController {
         
         centerTheSelectedLocationOnMap()
         
-        
         // TODO: check if there are saved images in CoreData.
         // use DataController and FetchedController
         
         // TODO download Photo images from Flickr if there are saved images in CoreData.
-//        VirtualTouristClient.getPhotoList(latitude: latitude, longitutde: longitude, completion: photoListResponseHandler(photoList:error:))
-//        VirtualTouristClient.getPhotoData()
+        VirtualTouristClient.getPhotoList(latitude: latitude, longitutde: longitude, completion: photoListResponseHandler(photoList:error:))
     }
     
-    func photoListResponseHandler(photoList: [String], error: Error?) {
-        
+    func photoListResponseHandler(photoList: [PhotoMeta], error: Error?) {
+        if error != nil {
+            // TODO implement showFailure method
+            print(error?.localizedDescription ?? "")
+        } else {
+            for photoMeta in photoList {
+                print("photometa: id=\(photoMeta.id), secret=\(photoMeta.secret), server=\(photoMeta.server), farm=\(photoMeta.farm), title=\(photoMeta.title)")
+                //        VirtualTouristClient.getPhotoData()
+            }
+        }
     }
     
     @IBAction func newCollectionButtonTapped() {
