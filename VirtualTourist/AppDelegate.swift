@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("This is the first launch ever!")
             UserDefaults.standard.set(true, forKey: "HasLaunchedBefore")
 
-            // TODO current user location and default size 0.05
+            // TODO current user location
             UserDefaults.standard.set(37.773972, forKey: "DefaultLatitude")
             UserDefaults.standard.set(-122.431297, forKey: "DefaultLongitude")
             UserDefaults.standard.set(0.05, forKey: "DefaultLatDelta")
