@@ -73,7 +73,6 @@ class VirtualTouristClient {
                 }
                 return
             }
-            print(String(reflecting: data))
             let decoder = JSONDecoder()
             do {
                 let responseObject = try decoder.decode(ResponseType.self, from: data)
@@ -89,8 +88,6 @@ class VirtualTouristClient {
         task.resume()
     }
     
-    //jsonFlickrApi({"photos":{"page":1,"pages":825,"perpage":250,"total":"206004","photo":[{"id":"49661111586","owner":"13722695@N00","secret":"014ce177b9","server":"65535","farm":66,"title":"Bay Area","ispublic":1,"isfriend":0,"isfamily":0},
-//{"id":"49660072626","owner":"51035555243@N01","secret":"64707f4e17","server":"65535","farm":66,"title":"Polaroid Cowboy","ispublic":1,"isfriend":0,"isfamily":0},{"id":"49660350507","owner":"51035555243@N01","secret":"97679e9803","server":"65535","farm":66,"title":"Folsom Street Fair","ispublic":1,"isfriend":0,"isfamily":0}]},"stat":"ok"})
     
     
     
