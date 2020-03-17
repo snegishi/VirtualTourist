@@ -18,6 +18,7 @@ class VirtualTouristClient {
     enum Endpoints {
         static let base = "https://www.flickr.com/services"
         static let formatParam = "?format=json"
+        static let jsonCallbackParam = "&nojsoncallback=1"
         static let apiKeyParam = "&api_key=\(Auth.apiKey)"
         
         case getPhotoList
@@ -25,7 +26,7 @@ class VirtualTouristClient {
         var stringValue: String {
             switch self {
             case .getPhotoList:
-                return Endpoints.base + "/rest/\(Endpoints.formatParam)&method=flickr.photos.search" + Endpoints.apiKeyParam
+                return Endpoints.base + "/rest/\(Endpoints.formatParam)\(Endpoints.jsonCallbackParam)&method=flickr.photos.search" + Endpoints.apiKeyParam
             }
         }
         
