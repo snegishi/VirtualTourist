@@ -88,17 +88,9 @@ class VirtualTouristClient {
         task.resume()
     }
     
-    
-    
-    
-    class func getPhotoData() {
-        //        https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-        //            or
-        //        https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}_[mstzb].jpg
-        //            or
-        //        https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{o-secret}_o.(jpg|gif|png)
-
-        let url = URL(string: "https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg" + Endpoints.apiKeyParam)
+    class func getPhotoData(farmId: Int, serverId: String, id: String, secret: String, completion: @escaping (String, Error?) -> Void) {
+        let urlString = "https://farm\(farmId).staticflickr.com/\(serverId)/\(id)_\(secret).jpg" + Endpoints.apiKeyParam
+        let url = URL(string: urlString)
         
         // TODO write down the process of GET request
     }

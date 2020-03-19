@@ -53,9 +53,16 @@ class PhotoViewController: UIViewController {
             print(error?.localizedDescription ?? "")
         } else {
             for photoMeta in photoList {
-                print("photometa: id=\(photoMeta.id), secret=\(photoMeta.secret), server=\(photoMeta.server), farm=\(photoMeta.farm), title=\(photoMeta.title)")
-                //        VirtualTouristClient.getPhotoData()
+                VirtualTouristClient.getPhotoData(farmId: photoMeta.farm, serverId: photoMeta.server, id: photoMeta.id, secret: photoMeta.secret, completion: photoResponseHandler(image:error:))
             }
+        }
+    }
+    
+    func photoResponseHandler(image: String, error: Error?) {
+        if error != nil {
+            
+        } else {
+            
         }
     }
     
@@ -70,15 +77,16 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 15 //photos.count // TODO change the actual variable
+        return 1 //photos.count // TODO change the actual variable
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! PhotoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell ", for: indexPath) as! PhotoCell
         
         // TODO If there are some images which are saved in CoreData, you should show them in CollectionView. If not, you should insert "No Images" label.
 
 //        cell.photoImageView?.image = UIImage(named: "VirtualTourist")
+        cell.backgroundColor = .red
         print("collectionView method passed.")
         
         return cell
