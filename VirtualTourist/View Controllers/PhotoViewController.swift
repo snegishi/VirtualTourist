@@ -89,7 +89,7 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?.count ?? 1
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -120,8 +120,8 @@ extension PhotoViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            // TODO all of downloaded images
-//            collectionView.insertSections()
+//            collectionView.reloadData()
+            collectionView.insertItems(at: [newIndexPath!])
             print("photo inserted")
             break
 //        case .delete:
