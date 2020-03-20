@@ -8,14 +8,21 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 class PhotoViewController: UIViewController {
     
     // MARK: - Properties
     
+    var pin: Pin!
+    
+    var dataController: DataController!
+    
+    var fetchedResultsController: NSFetchedResultsController<Photo>!
+    
     var photos = ["https://"]
-    var latitude = 0.0
-    var longitude = 0.0
+//    var latitude = 0.0
+//    var longitude = 0.0
     
     // MARK: - IBOutlets
     
@@ -24,8 +31,24 @@ class PhotoViewController: UIViewController {
     
     // MARK: - Life Cycle
     
+    fileprivate func setUpFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Photo> = Photo.fetchRequest()
+        let predicate = NSPredicate(format: "pin == %@", pin)
+        fetchRequest.predicate = predicate
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed. \(error.localizedDescription)")
+        }
+    }
+    
     fileprivate func centerTheSelectedLocationOnMap() {
-        let centerCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
+        let centerCoordinate = CLLocationCoordinate2DMake(pin.latitude, pin.longitude)
         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
         let viewRegion = MKCoordinateRegion(center: centerCoordinate, span: span)
         mapView.setRegion(viewRegion, animated: false)
@@ -37,6 +60,8 @@ class PhotoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUpFetchedResultsController()
         
         centerTheSelectedLocationOnMap()
         
@@ -66,6 +91,11 @@ class PhotoViewController: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        fetchedResultsController = nil
+    }
+        
     @IBAction func newCollectionButtonTapped() {
         // TODO show CollectionView of photo images which you can choose as many as you hope.
         
@@ -77,10 +107,11 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1 //photos.count // TODO change the actual variable
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let aPhoto = fetchedResultsController.object(at: indexPath)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell ", for: indexPath) as! PhotoCell
         
         // TODO If there are some images which are saved in CoreData, you should show them in CollectionView. If not, you should insert "No Images" label.
@@ -101,4 +132,22 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
         print("You selected cell #\(indexPath.item)!")
     }
     
+}
+
+extension PhotoViewController: NSFetchedResultsControllerDelegate {
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            // TODO all of downloaded images
+//            collectionView.insertSections()
+            print("photo inserted")
+            break
+//        case .delete:
+//            // TODO remove the chosen images
+//            break
+        default:
+            break
+        }
+    }
 }
