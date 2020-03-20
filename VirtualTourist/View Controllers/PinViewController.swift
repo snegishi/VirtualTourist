@@ -96,21 +96,24 @@ extension PinViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        // TODO set the choosed position
-//        latitude = view.
-//        longitude
         performSegue(withIdentifier: "PhotoViewIdentifier", sender: self)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let photoVC = segue.destination as! PhotoViewController
-//        if let indexPath = mapView.selectedAnnotations {
-//
-//
-//        }
-        // TODO: implement a part of give photoVC.photos by using dataController
-        photoVC.latitude = latitude
-        photoVC.longitude = longitude
+        if let photoVC = segue.destination as? PhotoViewController {
+            if let pins = fetchedResultsController.fetchedObjects {
+                let annotation = mapView.selectedAnnotations[0]
+                guard let indexPath = pins.firstIndex(where: { (pin) -> Bool in
+                    pin.latitude == annotation.coordinate.latitude && pin.longitude == annotation.coordinate.longitude
+                }) else {
+                    return
+                }
+                photoVC.dataController = dataController
+                photoVC.pin = pins[indexPath]
+//                photoVC.latitude = latitude
+//                photoVC.longitude = longitude
+            }
+        }
     }
 }
 
@@ -123,7 +126,7 @@ extension PinViewController: NSFetchedResultsControllerDelegate {
             let annotation = MKPointAnnotation()
             annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
             mapView.addAnnotation(annotation)
-            print("inserted")
+            print("pin inserted")
             break
         default:
             break
