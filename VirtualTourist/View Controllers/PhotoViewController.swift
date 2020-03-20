@@ -65,29 +65,11 @@ class PhotoViewController: UIViewController {
         
         centerTheSelectedLocationOnMap()
         
-        // TODO: check if there are saved images in CoreData.
-        // use DataController and FetchedController
-        
-        // TODO download Photo images from Flickr if there are saved images in CoreData.
-        VirtualTouristClient.getPhotoList(latitude: latitude, longitutde: longitude, completion: photoListResponseHandler(photoList:error:))
-    }
-    
-    func photoListResponseHandler(photoList: [PhotoMeta], error: Error?) {
-        if error != nil {
-            // TODO implement showFailure method
-            print(error?.localizedDescription ?? "")
-        } else {
-            for photoMeta in photoList {
-                VirtualTouristClient.getPhotoData(farmId: photoMeta.farm, serverId: photoMeta.server, id: photoMeta.id, secret: photoMeta.secret, completion: photoResponseHandler(image:error:))
-            }
-        }
-    }
-    
-    func photoResponseHandler(image: String, error: Error?) {
-        if error != nil {
-            
-        } else {
-            
+        let photos = fetchedResultsController.fetchedObjects
+        if photos!.count == 0 {
+            let photoDownloader = PhotoDownloader(pin: pin)
+            photoDownloader.dataController = dataController
+            photoDownloader.download()
         }
     }
     
@@ -116,8 +98,7 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
         
         // TODO If there are some images which are saved in CoreData, you should show them in CollectionView. If not, you should insert "No Images" label.
 
-//        cell.photoImageView?.image = UIImage(named: "VirtualTourist")
-        cell.backgroundColor = .red
+        cell.photoImageView?.image = UIImage(data: aPhoto.image!)
         print("collectionView method passed.")
         
         return cell

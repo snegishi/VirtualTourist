@@ -88,10 +88,21 @@ class VirtualTouristClient {
         task.resume()
     }
     
-    class func getPhotoData(farmId: Int, serverId: String, id: String, secret: String, completion: @escaping (String, Error?) -> Void) {
+    class func getPhotoData(farmId: Int, serverId: String, id: String, secret: String, completion: @escaping (Data?, Error?) -> Void) {
         let urlString = "https://farm\(farmId).staticflickr.com/\(serverId)/\(id)_\(secret).jpg" + Endpoints.apiKeyParam
-        let url = URL(string: urlString)
+        let url = URL(string: urlString)!
         
-        // TODO write down the process of GET request
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(data, nil)
+            }
+        }
+        task.resume()
     }
 }
