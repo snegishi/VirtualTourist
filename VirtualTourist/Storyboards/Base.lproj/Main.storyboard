@@ -96,21 +96,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VirtualTourist_120" id="Hsj-Mc-ORK">
-                                                    <rect key="frame" x="1.5" y="1" width="137" height="137"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="Hsj-Mc-ORK">
+                                                    <rect key="frame" x="-137" y="-155" width="414" height="449"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Images" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5er-co-FST">
-                                                    <rect key="frame" x="29" y="59.5" width="82" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="5er-co-FST" firstAttribute="centerY" secondItem="bLJ-Os-y6p" secondAttribute="centerY" id="Jfe-C2-jA3"/>
-                                                <constraint firstItem="5er-co-FST" firstAttribute="centerX" secondItem="bLJ-Os-y6p" secondAttribute="centerX" id="msJ-Lx-HEY"/>
-                                            </constraints>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="140" height="140"/>
                                         <connections>
@@ -119,6 +111,14 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rH9-hW-MX2">
+                                <rect key="frame" x="141" y="821" width="132" height="56"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="New Collection"/>
+                                <connections>
+                                    <action selector="newCollectionButtonTapped" destination="w9t-h7-9OA" eventType="touchUpInside" id="1MT-cK-31T"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -150,7 +150,4 @@
             <point key="canvasLocation" x="984" y="136"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="VirtualTourist_120" width="120" height="120"/>
-    </resources>
 </document>

@@ -14,26 +14,30 @@ class PinViewController: UIViewController {
 
     // MARK: - Properties
     
-//    var dataController: DataController!
-//    var fetchedResultsController: NSFetchedResultsController<Pin>!
+    var dataController: DataController!
+    var fetchedResultsController: NSFetchedResultsController<Pin>!
     
     var latitude = 0.0
     var longitude = 0.0
     
     // MARK: - IBOutlets
     @IBOutlet weak var mapView: MKMapView!
+    
+    // MARK: - Life Cycle
 
-//    fileprivate func setUpFetchedResultsController() {
-//        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
-//
-//        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "pins")
-//        fetchedResultsController.delegate = self
-//        do {
-//            try fetchedResultsController.performFetch()
-//        } catch {
-//            fatalError("The fetch could not be performed. \(error.localizedDescription)")
-//        }
-//    }
+    fileprivate func setUpFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Pin> = Pin.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "creationDate", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "pins")
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed. \(error.localizedDescription)")
+        }
+    }
     
     fileprivate func setDefaultCenterAndSizeOnMap() {
         latitude = UserDefaults.standard.double(forKey: "DefaultLatitude")
@@ -54,10 +58,15 @@ class PinViewController: UIViewController {
         mapPress.minimumPressDuration = 0.3
         mapView.addGestureRecognizer(mapPress)
         
-//        setUpFetchedResultsController()
+        setUpFetchedResultsController()
         setDefaultCenterAndSizeOnMap()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        fetchedResultsController = nil
+    }
+
     deinit {
         let centerCoordinate = mapView.region.center
         let latitude: Double = centerCoordinate.latitude
@@ -76,14 +85,20 @@ class PinViewController: UIViewController {
 extension PinViewController: MKMapViewDelegate {
 
     @objc func addAnnotation(_ recognizer: UIGestureRecognizer) {
-        let annotations = mapView.annotations
-        mapView.removeAnnotations(annotations)
+//        let annotations = mapView.annotations
+//        mapView.removeAnnotations(annotations)
         let touchedAt = recognizer.location(in: mapView) // adds the location on the view it was pressed
         let newCoordinates : CLLocationCoordinate2D = mapView.convert(touchedAt, toCoordinateFrom: mapView) // will get coordinates
 
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = newCoordinates
-        mapView.addAnnotation(annotation)
+        let pin = Pin(context: dataController.viewContext)
+        pin.latitude = newCoordinates.latitude
+        pin.longitude = newCoordinates.longitude
+        pin.creationDate = Date()
+        try? dataController.viewContext.save()
+
+//        let annotation = MKPointAnnotation()
+//        annotation.coordinate = newCoordinates
+//        mapView.addAnnotation(annotation)
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -107,20 +122,14 @@ extension PinViewController: MKMapViewDelegate {
 
 extension PinViewController: NSFetchedResultsControllerDelegate {
     
-//    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        mapView.beginUpdates()
-//    }
-//
-//    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-//        mapView.endUpdates()
-//    }
-    
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
+            let pin = controller.object(at: newIndexPath!) as! Pin
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+            mapView.addAnnotation(annotation)
             print("inserted")
-//            mapView.addAnnotation(<#T##annotation: MKAnnotation##MKAnnotation#>)
-//            mapView.insertRows(at: [newIndexPath!], with: .fade)
             break
         default:
             break

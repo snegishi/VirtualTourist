@@ -37,7 +37,7 @@ class DataController {
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }
-            self.configureContexts()
+//            self.configureContexts()
             completion?()
         }
     }
