@@ -20,10 +20,6 @@ class PhotoViewController: UIViewController {
     
     var fetchedResultsController: NSFetchedResultsController<Photo>!
     
-    var photos = ["https://"]
-//    var latitude = 0.0
-//    var longitude = 0.0
-    
     // MARK: - IBOutlets
     
     @IBOutlet weak var mapView: MKMapView!
