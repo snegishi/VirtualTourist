@@ -67,16 +67,34 @@ class PhotoViewController: UIViewController {
         if photos!.count == 0 {
             DispatchQueue.main.async {
                 self.setDownloadingIn(true)
-                print("start download")
             }
-            let photoDownloader = PhotoDownloader(pin: pin)
-            photoDownloader.dataController = dataController
-            photoDownloader.download()
-            
-            // TODO execute the following code after donwloading images
+            VirtualTouristClient.getPhotoList(latitude: self.pin.latitude, longitutde: self.pin.longitude, completion: self.photoListResponseHandler(photoList:error:))
+        }
+    }
+    
+    func photoListResponseHandler(photoList: [PhotoMeta], error: Error?) {
+        if error != nil {
+            // TODO implement showFailure method
+            print(error?.localizedDescription ?? "")
+        } else {
+            for photoMeta in photoList {
+                VirtualTouristClient.getPhotoData(farmId: photoMeta.farm, serverId: photoMeta.server, id: photoMeta.id, secret: photoMeta.secret, completion: photoResponseHandler(image:error:))
+            }
+        }
+    }
+    
+    func photoResponseHandler(image: Data?, error: Error?) {
+        if error != nil {
+            print(error?.localizedDescription ?? "")
+        } else {
+            let photo = Photo(context: dataController.viewContext)
+            photo.image = image
+            photo.creationDate = Date()
+            photo.pin = pin
+            try? dataController.viewContext.save()
+
             DispatchQueue.main.async {
                 self.setDownloadingIn(false)
-                print("end download")
             }
         }
     }
