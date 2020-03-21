@@ -28,6 +28,8 @@ class PhotoViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var newCollectionButton: UIButton!
     
     // MARK: - Life Cycle
     
@@ -67,9 +69,19 @@ class PhotoViewController: UIViewController {
         
         let photos = fetchedResultsController.fetchedObjects
         if photos!.count == 0 {
+            DispatchQueue.main.async {
+                self.setDownloadingIn(true)
+                print("start download")
+            }
             let photoDownloader = PhotoDownloader(pin: pin)
             photoDownloader.dataController = dataController
             photoDownloader.download()
+            
+            // TODO execute the following code after donwloading images
+            DispatchQueue.main.async {
+                self.setDownloadingIn(false)
+                print("end download")
+            }
         }
     }
     
@@ -83,6 +95,14 @@ class PhotoViewController: UIViewController {
         
     }
     
+    func setDownloadingIn(_ downloadingIn: Bool) {
+        if downloadingIn {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
+        }
+        newCollectionButton.isEnabled = !downloadingIn
+    }
 }
 
 
