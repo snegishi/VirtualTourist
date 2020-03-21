@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC6130152424B0CA00E6556F /* PhotoDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6130142424B0CA00E6556F /* PhotoDownloader.swift */; };
 		BCED3AB92415DEF900C02776 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCED3AB82415DEF900C02776 /* AppDelegate.swift */; };
 		BCED3ABB2415DEF900C02776 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCED3ABA2415DEF900C02776 /* SceneDelegate.swift */; };
 		BCED3ABD2415DEF900C02776 /* PinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCED3ABC2415DEF900C02776 /* PinViewController.swift */; };
@@ -23,7 +22,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BC6130142424B0CA00E6556F /* PhotoDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDownloader.swift; sourceTree = "<group>"; };
 		BCED3AB52415DEF900C02776 /* VirtualTourist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VirtualTourist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCED3AB82415DEF900C02776 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCED3ABA2415DEF900C02776 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				BCED3AD6241CBBE500C02776 /* Responses */,
 				BCED3AC12415DEF900C02776 /* VirtualTourist.xcdatamodeld */,
 				BCED3ADD241D073D00C02776 /* DataController.swift */,
-				BC6130142424B0CA00E6556F /* PhotoDownloader.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -228,7 +225,6 @@
 				BCED3ABD2415DEF900C02776 /* PinViewController.swift in Sources */,
 				BCED3ADC241CCC1000C02776 /* PhotoListResponse.swift in Sources */,
 				BCED3AB92415DEF900C02776 /* AppDelegate.swift in Sources */,
-				BC6130152424B0CA00E6556F /* PhotoDownloader.swift in Sources */,
 				BCED3ADA241CBD3400C02776 /* VirtualTouristClient.swift in Sources */,
 				BCED3ADE241D073E00C02776 /* DataController.swift in Sources */,
 				BCED3ABB2415DEF900C02776 /* SceneDelegate.swift in Sources */,
