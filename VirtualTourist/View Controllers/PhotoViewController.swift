@@ -104,11 +104,24 @@ class PhotoViewController: UIViewController {
         fetchedResultsController = nil
     }
         
-    @IBAction func newCollectionButtonTapped() {
-        // TODO show CollectionView of photo images which you can choose as many as you hope.
-        
+    fileprivate func deleteAllPhotos() {
+        let photos = fetchedResultsController.fetchedObjects ?? []
+        for photo in photos {
+            let indexPath = fetchedResultsController.indexPath(forObject: photo)!
+            deletePhoto(indexPath)
+        }
     }
     
+    @IBAction func newCollectionButtonTapped() {
+
+        deleteAllPhotos()
+
+        DispatchQueue.main.async {
+            self.setDownloadingIn(true)
+        }
+        VirtualTouristClient.getPhotoList(latitude: self.pin.latitude, longitutde: self.pin.longitude, completion: self.photoListResponseHandler(photoList:error:))
+    }
+        
     func setDownloadingIn(_ downloadingIn: Bool) {
         if downloadingIn {
             activityIndicator.startAnimating()
