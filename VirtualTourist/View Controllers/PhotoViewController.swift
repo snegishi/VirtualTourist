@@ -124,13 +124,16 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
         return cell
     }
 
+    
+    fileprivate func deletePhoto(_ indexPath: IndexPath) {
+        let photoToDelete = fetchedResultsController.object(at: indexPath)
+        dataController.viewContext.delete(photoToDelete)
+        try? dataController.viewContext.save()
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // TODO add images to Photo Album if NewCollection button was pushed
-        
-        // TODO remove images from Photo Album before pushing NewCollection button.
-        
-        // handle tap events
-        print("You selected cell #\(indexPath.item)!")
+
+        deletePhoto(indexPath)
     }
     
 }
