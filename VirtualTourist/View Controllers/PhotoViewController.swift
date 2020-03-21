@@ -107,20 +107,24 @@ class PhotoViewController: UIViewController {
 
 
 extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    
+        
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 16 // fixed number of images
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+//        var count = fetchedResultsController.sections?[section].numberOfObjects ?? 0
+//        if count > 16 {
+//            count = 16
+//        }
+//        return count  // fixed number of images
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCell
         let aPhoto = fetchedResultsController.object(at: indexPath)
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell ", for: indexPath) as! PhotoCell
+        cell.photoImageView?.image = UIImage(data: aPhoto.image!)
         
         // TODO If there are some images which are saved in CoreData, you should show them in CollectionView. If not, you should insert "No Images" label.
 
-        cell.photoImageView?.image = UIImage(data: aPhoto.image!)
-        print("collectionView method passed.")
-        
+
         return cell
     }
 
@@ -132,7 +136,6 @@ extension PhotoViewController: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         deletePhoto(indexPath)
     }
     
@@ -143,13 +146,11 @@ extension PhotoViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-//              collectionView.reloadData()
-//            collectionView.insertItems(at: [newIndexPath!])
-            print("photo inserted")
+            collectionView.insertItems(at: [newIndexPath!])
             break
-//        case .delete:
-//            // TODO remove the chosen images
-//            break
+        case .delete:
+            collectionView.deleteItems(at: [indexPath!])
+            break
         default:
             break
         }
