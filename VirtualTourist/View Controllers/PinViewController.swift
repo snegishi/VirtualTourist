@@ -127,8 +127,6 @@ extension PinViewController: MKMapViewDelegate {
                 }
                 photoVC.dataController = dataController
                 photoVC.pin = pins[indexPath]
-//                photoVC.latitude = latitude
-//                photoVC.longitude = longitude
             }
         }
     }
