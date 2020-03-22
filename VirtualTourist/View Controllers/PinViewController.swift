@@ -58,8 +58,25 @@ class PinViewController: UIViewController {
         mapPress.minimumPressDuration = 0.3
         mapView.addGestureRecognizer(mapPress)
         
-        setUpFetchedResultsController()
         setDefaultCenterAndSizeOnMap()
+    }
+    
+    fileprivate func setLoadedPins() {
+        let pins = fetchedResultsController.fetchedObjects ?? []
+        var annotations = [MKPointAnnotation]()
+        for pin in pins {
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+            annotations.append(annotation)
+        }
+        mapView.addAnnotations(annotations)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setUpFetchedResultsController()
+        
+        setLoadedPins()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
