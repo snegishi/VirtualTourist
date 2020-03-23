@@ -102,14 +102,16 @@ class PinViewController: UIViewController {
 extension PinViewController: MKMapViewDelegate {
 
     @objc func addAnnotation(_ recognizer: UIGestureRecognizer) {
-        let touchedAt = recognizer.location(in: mapView) // adds the location on the view it was pressed
-        let newCoordinates : CLLocationCoordinate2D = mapView.convert(touchedAt, toCoordinateFrom: mapView) // will get coordinates
+        if recognizer.state == .ended {
+            let touchedAt = recognizer.location(in: mapView) // adds the location on the view it was pressed
+            let newCoordinates : CLLocationCoordinate2D = mapView.convert(touchedAt, toCoordinateFrom: mapView) // will get coordinates
 
-        let pin = Pin(context: dataController.viewContext)
-        pin.latitude = newCoordinates.latitude
-        pin.longitude = newCoordinates.longitude
-        pin.creationDate = Date()
-        try? dataController.viewContext.save()
+            let pin = Pin(context: dataController.viewContext)
+            pin.latitude = newCoordinates.latitude
+            pin.longitude = newCoordinates.longitude
+            pin.creationDate = Date()
+            try? dataController.viewContext.save()
+        }
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
