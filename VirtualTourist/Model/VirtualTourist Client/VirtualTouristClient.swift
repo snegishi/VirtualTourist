@@ -26,7 +26,7 @@ class VirtualTouristClient {
         var stringValue: String {
             switch self {
             case .getPhotoList:
-                return Endpoints.base + "/rest/\(Endpoints.formatParam)\(Endpoints.jsonCallbackParam)&method=flickr.photos.search" + Endpoints.apiKeyParam
+                return Endpoints.base + "/rest/\(Endpoints.formatParam)\(Endpoints.jsonCallbackParam)&method=flickr.photos.search&per_page=20" + Endpoints.apiKeyParam
             }
         }
         
@@ -62,7 +62,8 @@ class VirtualTouristClient {
     
     class func getPhotoList(latitude: Double, longitutde: Double, completion: @escaping ([PhotoMeta], Error?) -> Void) {
 
-        let urlString = Endpoints.getPhotoList.stringValue + "&lat=\(latitude)&lon=\(longitutde)"
+        let randomNumber = Int.random(in: 1..<200)
+        let urlString = Endpoints.getPhotoList.stringValue + "&lat=\(latitude)&lon=\(longitutde)&page=\(randomNumber)"
         let url = URL(string: urlString)!
         let ResponseType = PhotoListResponse.self
         
